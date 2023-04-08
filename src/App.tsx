@@ -15,7 +15,8 @@ function App() {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const result = [{ name: "Maxamed Nuur" }, { name: "Xasan Cilmi" }, { name: "Jamac Maxamed" }];
-                resolve(result.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+                // resolve(result.filter((item) => item.name.toLowerCase().includes(search.toLowerCase())));
+                resolve(result);
             }, 1000);
         }) as Promise<{ name: string }[]>;
     }, []);
@@ -27,7 +28,7 @@ function App() {
             <Select2
                 options={people}
                 selected={people[1]}
-                // lazyLoadOptions={handleLazyLoadOptions}
+                lazyLoadOptions={handleLazyLoadOptions}
                 renderSelectedItem={(selected) => (
                     <div className="flex items-center">
                         <img src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" className="h-4 w-auto" />

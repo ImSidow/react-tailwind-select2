@@ -40,9 +40,18 @@ const Select2 = <T,>({ renderSelectedItem, options, selected, renderOption, lazy
         isLoading.current = true;
 
         lazyLoadOptions(search).then((loadedOptions) => {
-            console.log("loaded");
-            if (loadedOptions.length > 0) setOptions([...$options, ...loadedOptions]);
-            else setRerender((prev) => prev + 1);
+            const filteredOptions = filterOptionsBySearchKey(loadedOptions, search);
+            if (filteredOptions.length > 0) {
+                setOptions((prev) => {
+                    const newOptions = [...prev, ...loadedOptions];
+                    const uniqueOptions = newOptions.filter((option, idx) => {
+                        const optionString = JSON.stringify(option);
+                        const isUnique = newOptions.findIndex((item) => JSON.stringify(item) === optionString) === idx;
+                        return isUnique;
+                    });
+                    return uniqueOptions;
+                });
+            } else setRerender((prev) => prev + 1);
             isLoading.current = false;
         });
     };
